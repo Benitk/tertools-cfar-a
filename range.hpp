@@ -2,39 +2,49 @@
 
 namespace itertools {
     
-    class range {
-        int first, last, current;
+    class range{
+       
+        int last, first;
         public:
-            range() {}
-            range(int x, int y) : first(x), last(y), current(x) {}
+            //range() {}
+            range(int x, int y) : first(x), last(y) {}
 
 
         class iterator {
-            range* rng;
+            int val;
 
             public:
-                iterator(range* r) : rng(r) {}
+                iterator(int r) : val(r) {}
 
-                range& operator*() const {return *rng;}
+                int operator*() const { return val; }
+                //++i
+                iterator& operator++() {
+                    val++;
+                    return *this;
+                }
 
-                range& operator->() const {return *rng;}
+                // i++
+                const iterator operator++(int) {
+                    iterator temp = *this;
+                    val++;
+                    return temp;
+                }
 
-                iterator& operator++() {return *this;}
+                bool operator==(const iterator& it) const {
+                    return val == *it;
+                }
 
-                // postfix
-                const iterator operator++(int) {return *this;}
-
-                bool operator==(const iterator& it) const {return false;}
-
-                bool operator!=(const iterator& it) const {return false;}
+                bool operator!=(const iterator& it) const {
+                    return val != *it;
+                }
         };
 
-        iterator begin() {
-            return iterator{this};
+        iterator begin() const {
+            return iterator{this->first};
         }
 
-        iterator end() {
-            return iterator{nullptr};
+        iterator end() const  {
+            return iterator{this->last};
         }
     };
 }
