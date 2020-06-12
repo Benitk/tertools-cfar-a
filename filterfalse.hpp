@@ -1,38 +1,62 @@
 # pragma once 
 
+#include <iostream>
+using namespace std;
+
 namespace itertools {
 
     template <typename functor, typename container>
     class filterfalse {
+
+        functor func;
+        container cont;
+        
         public:
-            filterfalse(functor f, container c) {}
+            filterfalse(functor f, container c) : func(f), cont(c) {}
 
         class iterator {
-            filterfalse* ff;
+            typename container::iterator current;
+            typename container::iterator end;
+            functor bool_func;
 
             public:
-                iterator(filterfalse* f) : ff(f) {}
+                iterator(typename container::iterator s, typename container::iterator e, functor f)
+                 : current(s), end(e), bool_func(f) {
+                     while(current != end && bool_func(*current))
+                        ++current;
+                 }
 
-                filterfalse& operator*() const {return *ff;}
+                auto operator*() const {
+                    return *current;
+                }
 
-                filterfalse& operator->() const {return *ff;}
+                iterator& operator++() {
+                    ++current;
+                    while(current != end && bool_func(*current)) // while the current element of the container satisfies the condition
+                        ++current;
+                    return *this;
+                }
 
-                iterator& operator++() {return *this;}
+                const iterator operator++(int) {
+                    iterator temp = *this;
+                     ++current;
+                    while(current != end && bool_func(*current)) // while the current element of the container satisfies the condition
+                        ++current;
+                    return temp;
+                }
 
-                const iterator operator++(int) {return *this;}
+                bool operator==(const iterator& it) const {return current == it.current;}
 
-                bool operator==(const iterator& it) const {return false;}
-
-                bool operator!=(const iterator& it) const {return false;}
+                bool operator!=(const iterator& it) const {return current != it.current;}
 
         };
 
         iterator begin() {
-            return iterator{this};
+            return iterator{cont.begin(), cont.end(), func};
         }
 
         iterator end() {
-            return iterator{nullptr};
+            return iterator{cont.end(), cont.end(), func};
         }
     };
 }
