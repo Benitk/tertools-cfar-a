@@ -36,6 +36,7 @@ int main(int argc, const char * argv[]) {
     cout << endl << "accumulate of range: " << endl;
 	for (int i: accumulate(range(5,9)))
 		cout << i << " ";      // 5 11 18 26
+        
 
     cout << endl << "accumulate of vector<int>: " << endl;
     for (auto i: accumulate(vecInt) )
@@ -73,6 +74,10 @@ int main(int argc, const char * argv[]) {
     for (auto i: compress(range(5,9), vector<bool>({true,true,false,true})) )
         cout << i << " ";  // 5 6 8
     cout << endl << endl;
+
+
+
+
 
 
     cout << endl;
