@@ -31,7 +31,7 @@ namespace itertools {
                 iterator& operator++() {
                     ++current;
                     if(current != end)
-                    sum = func_it(sum,*current);
+                        sum = func_it(sum,*current);
                     return *this;
                 }
                 //i++;
