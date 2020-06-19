@@ -19,7 +19,7 @@ namespace itertools {
           accumulate(container c, function f = add()) : cont(c), func(f) {}  
 
         class iterator {
-           typename std::decay<decltype(*(cont.begin()))>::type sum;
+           typename decay<decltype(*(cont.begin()))>::type sum;
            typename container::iterator current;
            typename container::iterator end;
            function func_it;
